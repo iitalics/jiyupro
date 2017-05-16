@@ -1,4 +1,7 @@
 (load "packages.lisp")
-(in-package :jysim.main)
 
+(dolist (f (directory "blockchain/*"))
+  (load f))
+
+(in-package :jysim.main)
 (format t "Hello, world~%")
