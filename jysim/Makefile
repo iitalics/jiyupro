@@ -1,5 +1,11 @@
+binary=jy
 
-.PHONY: all
+.PHONY: all clean
+
 all:
-	ocamlbuild src/main.native
-	@mv main.native ./jy
+	ocamlbuild main.native
+	@mv main.native $(binary)
+
+
+clean:
+	rm -rf _build $(binary)
