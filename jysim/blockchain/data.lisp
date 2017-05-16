@@ -1,4 +1,4 @@
-(in-package :jiyu.chain)
+(in-package :jysim.chain)
 
 ;; note about naming:
 ;;  'aid' = artifact id
@@ -7,28 +7,29 @@
 ;; TODO: add type information
 
 
-(defstruct block
-  ;; protocol data
-  pred-hash
-  timestamp
-  author-aid
-  sig
-  arts
+(defclass block% ()
+  (;; protocol data
+   (prev-hash   :initarg :prev-hash)
+   (timestamp   :initarg :timestamp)
+   (author-aid  :initarg :author)
+   (sig         :initarg :signature)
+   (arts        :initarg :artifacts)
+   ;; extra data
+   (ord         :initarg :order)
+   (arts-hash   :initarg :artifacts-hash))
 
-  ;; extra/cached data
-  ord-number
-  arts-hash
-  )
+  (:documentation "A single block in the blockchain"))
 
 
-(defstruct artifact
-  ;; protocol data
-  id
-  type
-  timestamp
-  author-aid
-  sig
-  contents
+(defclass artifact% ()
+  (;; protocol data
+   (id            :initarg :id)
+   (type          :initarg :type)
+   (timestamp     :initarg :timestamp)
+   (author-aid    :initarg :author-aid)
+   (sig           :initarg :signature)
+   (contents      :initarg :contents)
+   ;; extra data
+   (contents-hash :initarg :contents-hash))
 
-  ;; extra data
-  contents-hash)
+  (:documentation "A single artifact"))

@@ -13,5 +13,7 @@
 
 (defpackage :jysim.chain
   (:use :common-lisp)
-  (:export )
+  (:export block%
+           artifact%)
+
   )
