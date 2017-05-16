@@ -1,2 +1,3 @@
+PKG cryptokit
 S src
 B _build/**

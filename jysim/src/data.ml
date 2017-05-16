@@ -1,15 +1,14 @@
-type uniq_id = int64   (* dunno *)
+type uniq_id = bytes   (* dunno *)
 type timestamp = int64 (* 8-byte unix timestamp *)
-type hashcode = bytes  (* 256 bits = 32 bytes *)
-type signature = bytes (* signature is a signed hashcode *)
-type pubkey = bytes    (* N-bit key based on what algorithm?? *)
-type chan_id = string  (* arbitrary identifier (max-length: 32 chars) *)
+type hashcode = string  (* 256 bits = 32 bytes *)
+type signature = string (* signature is a signed hashcode *)
+type pubkey = Cryptokit.RSA.key
 
 type art_data =
   | ArtRoot    of pubkey
   | ArtInvite  of (pubkey * signature * int)
-  | ArtThread  of chan_id
-  | ArtReply   of (uniq_id * bytes)
+  | ArtThread  of string
+  | ArtReply   of (uniq_id * string)
 
 type artifact =
   { art_id : uniq_id;
