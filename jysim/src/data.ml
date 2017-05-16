@@ -11,14 +11,16 @@ type art_data =
   | ArtThread  of chan_id
   | ArtReply   of (uniq_id * bytes)
 
-type artifact = { art_id : uniq_id
-                ; art_ts : timestamp
-                ; art_author : uniq_id
-                ; art_sign : signature
-                ; art_contents : art_data }
+type artifact =
+  { art_id : uniq_id;
+    art_ts : timestamp;
+    art_author : uniq_id;
+    art_sign : signature;
+    art_contents : art_data }
 
-type block = { bl_prev : hashcode
-             ; bl_ts : timestamp
-             ; bl_author : uniq_id
-             ; bl_sign : signature
-             ; bl_arts : artifact list }
+type block =
+  { bl_prev : hashcode;
+    bl_ts : timestamp;
+    bl_author : uniq_id;
+    bl_sign : signature;
+    bl_arts : artifact list }
