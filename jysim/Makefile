@@ -1,9 +1,10 @@
 binary=jy
+source=src
 
 .PHONY: all clean
 
 all:
-	ocamlbuild main.native
+	ocamlbuild $(source)/main.native
 	@mv main.native $(binary)
 
 
