@@ -1,8 +1,12 @@
-type uniq_id = bytes   (* dunno *)
-type timestamp = int64 (* 8-byte unix timestamp *)
+(* NOTE:
+ * ocaml 'string' = immutable byte array
+ * ocaml 'bytes'  =   mutable byte array
+ *)
+type uniq_id = string   (* dunno *)
+type timestamp = int64  (* 8-byte unix timestamp *)
 type hashcode = string  (* 256 bits = 32 bytes *)
 type signature = string (* signature is a signed hashcode *)
-type pubkey = Cryptokit.RSA.key
+type pubkey = string
 
 type art_data =
   | ArtRoot    of pubkey
@@ -15,7 +19,8 @@ type artifact =
     art_ts : timestamp;
     art_author : uniq_id;
     art_sign : signature;
-    art_contents : art_data }
+    art_kind : int;
+    art_contents : bytes }
 
 type block =
   { bl_prev : hashcode;
