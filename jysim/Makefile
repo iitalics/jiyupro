@@ -1,11 +1,11 @@
 binary=jy
 source=src
-pkgs=cryptokit
+pkgs=cryptokit,getopt
 
 .PHONY: all clean
 
 all:
-	ocamlbuild $(source)/main.native -package $(pkgs)
+	ocamlbuild $(source)/main.native -pkgs $(pkgs)
 	@mv main.native $(binary)
 
 
