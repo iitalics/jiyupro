@@ -3,6 +3,7 @@
 use std::fs::File;
 use std::path::{Path, PathBuf};
 use std::io::Read;
+use std;
 
 use chain::*;
 use artifact::*;
@@ -62,8 +63,11 @@ pub trait Entity {
     fn to_bytes(&self) -> &[u8];
 }
 
-pub trait EntitySource<E> where E: Entity {
-    fn load(&self, addr: Address) -> Result<Option<E>, ()>;
+pub trait EntitySource<E>
+    where E: Entity
+{
+    type Err;
+    fn load(&self, addr: Address) -> Result<Option<E>, Self::Err>;
     fn publish(&self, ent: E);
 }
 
@@ -80,12 +84,14 @@ impl LocalStorage {
             Err(())
         }
     }
-
 }
 
-impl<E> EntitySource<E> for LocalStorage where E: Entity {
+impl<E> EntitySource<E> for LocalStorage
+    where E: Entity
+{
+    type Err = std::io::Error;
 
-    fn load(&self, addr: Address) -> Result<Option<E>, ()> {
+    fn load(&self, addr: Address) -> Result<Option<E>, Self::Err> {
 
         let mut p = self.root.to_owned();
         let addr_str = addr.to_str();
@@ -94,12 +100,10 @@ impl<E> EntitySource<E> for LocalStorage where E: Entity {
 
         if p.exists() && p.is_file() {
 
-            let mut f = File::open(p).unwrap();
+            let mut f = File::open(p)?;
             let mut buf = Vec::new();
-            match f.read_to_end(buf.as_mut()) {
-                Ok(v) => Ok(Some(E::from_bytes(buf.as_slice()))),
-                Err(_) => Err(())
-            }
+            f.read_to_end(buf.as_mut())?;
+            Ok(Some(E::from_bytes(buf.as_slice())))
 
         } else {
             Ok(None)
