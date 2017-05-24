@@ -1,18 +1,17 @@
 #![allow(dead_code)]
 
 use storage::Address;
-
 pub type ArtAddress = Address;
 
-pub struct ArtifactEntry {
+pub struct Artifact {
 	signature: [u8; 32],
-	body: ArtifactHeader
+	header: ArtifactHeader,
+	spec: ArtSpec,
 }
 
 pub struct ArtifactHeader {
 	timestamp: u64,
 	author: ArtAddress,
-	contents: ArtSpec
 }
 
 pub enum ArtSpec {
@@ -26,16 +25,13 @@ impl ArtSpec {
 
 	#[allow(unused_variables)]
 	fn get_version(self) -> u16 {
-
 		match self {
 			ArtSpec::Unknown { ver, raw } => ver,
 			ArtSpec::RootIdent(_) => 0x0000,
 			ArtSpec::IdentDecl(_) => 0x0001,
 			ArtSpec::SimpleTextMsg(_) => 0x0010
 		}
-
 	}
-
 }
 
 pub struct IdentityDeclararionArtifact {
